@@ -19,8 +19,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # First step: Handle regular issues (excluding needs-information)
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@fa2e9d605c4eeb9fcad4c99c224cee0c6c7f3594 # v2.16.0
+        with:
+          egress-policy: audit
+
       - name: Mark regular issues as stale
-        uses: actions/stale@v10
+        uses: actions/stale@b5d41d4e1d5dceea10e7104786b73624c18a190f # v10.2.0
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -64,7 +69,7 @@ jobs:
 
       # Second step: Handle needs-information issues with accelerated timeline
       - name: Mark needs-information issues as stale
-        uses: actions/stale@v10
+        uses: actions/stale@b5d41d4e1d5dceea10e7104786b73624c18a190f # v10.2.0
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
 
